@@ -13,9 +13,9 @@ import java.io.File
 
 @Suppress("unused")
 @CommandAlias("docsadmin")
-class DocsAdminCommand(val plugin: DocsPlugin) : BaseCommand() {
+class DocsAdminCommand(private val plugin: DocsPlugin) : BaseCommand() {
     @HelpCommand
-    fun onHelp(sender: CommandSender, help: CommandHelp) = help.showHelp()
+    fun onHelp(@Suppress("UNUSED_PARAMETER") sender: CommandSender, help: CommandHelp) = help.showHelp()
 
     @Subcommand("origin")
     @Description("Changes git origin URL and clones")
