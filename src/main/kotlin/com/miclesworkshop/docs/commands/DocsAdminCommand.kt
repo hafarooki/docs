@@ -16,6 +16,7 @@ import java.io.File
 @CommandAlias("docsadmin")
 @CommandPermission("docs.admin")
 class DocsAdminCommand(private val plugin: DocsPlugin) : BaseCommand() {
+
     @HelpCommand
     fun onHelp(@Suppress("UNUSED_PARAMETER") sender: CommandSender, help: CommandHelp) = help.showHelp()
 
@@ -88,9 +89,9 @@ class DocsAdminCommand(private val plugin: DocsPlugin) : BaseCommand() {
         renameTo(newFile)
     }
 
-    private fun CommandSender.sendStatus(status: String) = sendMessage("${DARK_AQUA}$status...")
+    private fun CommandSender.sendStatus(status: String) = sendMessage("$DARK_AQUA$status...")
 
-    private fun CommandSender.sendOK() = sendMessage("${GREEN} -> OK")
+    private fun CommandSender.sendOK() = sendMessage("$GREEN -> OK")
 
-    private fun CommandSender.sendFinish(message: String) = sendMessage("${AQUA}$message")
+    private fun CommandSender.sendFinish(message: String) = sendMessage("$AQUA$message")
 }

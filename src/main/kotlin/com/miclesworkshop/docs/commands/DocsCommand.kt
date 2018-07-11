@@ -4,7 +4,6 @@ import co.aikar.commands.BaseCommand
 import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.Default
-import co.aikar.commands.annotation.Optional
 import co.aikar.commands.annotation.Subcommand
 import com.miclesworkshop.docs.DocsPlugin
 import com.miclesworkshop.docs.parseDoc
@@ -39,29 +38,32 @@ private fun CommandSender.listDocsInFolder(rootFolder: File, indents: Int, child
     }
 }
 
+@Suppress("unused")
 @CommandAlias("docs")
 class DocsCommand(private val plugin: DocsPlugin) : BaseCommand() {
-    @Default
-    @Subcommand("list")
-    fun onList(sender: CommandSender) {
-//        plugin.async {
-        val folder = plugin.docsFolder
-        sender.listDocsInFolder(folder, 0)
-//        }
+
+    private fun CommandSender.async(function: () -> Unit) {
+        plugin.async {
+            try {
+                function()
+            } catch (e: InvalidCommandArgument) {
+                sendMessage("$DARK_RED[Error]$RED ${e.message}")
+            }
+        }
     }
 
+    @Default
+    @Subcommand("list")
+    fun onList(sender: CommandSender) = sender.async { sender.listDocsInFolder(plugin.docsFolder, 0) }
+
     @Subcommand("view")
-    fun onView(sender: CommandSender, doc: String, page: Int) {
-//        plugin.async {
+    fun onView(sender: CommandSender, doc: String, page: Int) = sender.async {
         val file = File(plugin.docsFolder, "$doc.txt")
-        System.out.println(file.path)
         if (!file.exists() || !file.isFile) throw InvalidCommandArgument("Doc not found! For a list of docs, use /docs")
-        val lines = file.parseDoc(max(0, page - 1))
+        val lines = parseDoc(file, doc, max(0, page - 1))
         for (line in lines) {
-            val component = TextComponent()
-            line.forEach { component.addExtra(it) }
+            val component = TextComponent(); line.forEach { component.addExtra(it) }
             sender.spigot().sendMessage(component)
         }
-//        }
     }
 }
