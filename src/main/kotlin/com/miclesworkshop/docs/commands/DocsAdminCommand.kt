@@ -6,6 +6,7 @@ import co.aikar.commands.InvalidCommandArgument
 import co.aikar.commands.annotation.*
 import com.miclesworkshop.docs.DocsPlugin
 import org.bukkit.ChatColor
+import org.bukkit.ChatColor.*
 import org.bukkit.command.CommandSender
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.PullResult
@@ -37,9 +38,9 @@ class DocsAdminCommand(private val plugin: DocsPlugin) : BaseCommand() {
         try {
             sender.sendStatus("Copying files")
 
-            if(plugin.gitRoot.exists()) plugin.gitRoot.move(plugin.gitRootOld)
+            if (plugin.gitRoot.exists()) plugin.gitRoot.move(plugin.gitRootOld)
             tmpDir.move(plugin.gitRoot)
-            if(plugin.gitRootOld.exists()) plugin.gitRootOld.deleteRecursively()
+            if (plugin.gitRootOld.exists()) plugin.gitRootOld.deleteRecursively()
         } catch (e: Exception) {
             e.printStackTrace()
             throw InvalidCommandArgument("Something went wrong. Please see console.")
@@ -47,6 +48,11 @@ class DocsAdminCommand(private val plugin: DocsPlugin) : BaseCommand() {
         sender.sendOK()
         sender.sendFinish("Changed origin to $url and cloned. Files: ${plugin.gitRoot.list()?.joinToString()
                 ?: "none"}")
+        if (!File(plugin.gitRoot, "docs").exists()) {
+            sender.sendMessage("${YELLOW}WARNING: Cloned repository has no 'docs' folder! " +
+                    "Will not be able to display any docs. " +
+                    "Please ensure that you have your repository set up correctly.")
+        }
     }
 
     @Subcommand("update")
@@ -82,9 +88,9 @@ class DocsAdminCommand(private val plugin: DocsPlugin) : BaseCommand() {
         renameTo(newFile)
     }
 
-    private fun CommandSender.sendStatus(status: String) = sendMessage("${ChatColor.DARK_AQUA}$status...")
+    private fun CommandSender.sendStatus(status: String) = sendMessage("${DARK_AQUA}$status...")
 
-    private fun CommandSender.sendOK() = sendMessage("${ChatColor.GREEN} -> OK")
+    private fun CommandSender.sendOK() = sendMessage("${GREEN} -> OK")
 
-    private fun CommandSender.sendFinish(message: String) = sendMessage("${ChatColor.AQUA}$message")
+    private fun CommandSender.sendFinish(message: String) = sendMessage("${AQUA}$message")
 }
