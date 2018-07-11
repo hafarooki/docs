@@ -13,13 +13,13 @@ import java.io.File
 
 @Suppress("unused")
 @CommandAlias("docsadmin")
+@CommandPermission("docs.admin")
 class DocsAdminCommand(private val plugin: DocsPlugin) : BaseCommand() {
     @HelpCommand
     fun onHelp(@Suppress("UNUSED_PARAMETER") sender: CommandSender, help: CommandHelp) = help.showHelp()
 
     @Subcommand("origin")
     @Description("Changes git origin URL and clones")
-    @CommandPermission("docs.origin")
     fun onOrigin(sender: CommandSender, url: String) {
         val tmpDir = plugin.gitRootTmp
         tmpDir.deleteRecursively()   // delete in case it is left over for some reason
@@ -51,7 +51,6 @@ class DocsAdminCommand(private val plugin: DocsPlugin) : BaseCommand() {
 
     @Subcommand("update")
     @Description("updates the repo")
-    @CommandPermission("docs.update")
     fun onUpdate(sender: CommandSender) {
         val git: Git
         try {
