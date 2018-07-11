@@ -13,6 +13,7 @@ import java.io.File
 class DocsPlugin : JavaPlugin() {
     private val commandManager = PaperCommandManager(this)
     val gitRoot = File(dataFolder, "repository")
+    val gitRootOld = File(dataFolder, "repository_old")
     val gitRootTmp = File(dataFolder, "repository_tmp")
 
     override fun onEnable() {
@@ -41,18 +42,31 @@ class DocsCommand(val plugin: DocsPlugin) : BaseCommand() {
         plugin.gitRootTmp.mkdirs()
         try {
             Git.cloneRepository().setURI(url).setDirectory(plugin.gitRootTmp).call()
-            plugin.gitRoot.deleteRecursively()
-            plugin.gitRootTmp.renameTo(plugin.gitRoot)
         } catch (e: Exception) {
             plugin.gitRootTmp.deleteRecursively()
             e.printStackTrace()
-            throw InvalidCommandArgument("Error occurred while attempting to clone: ${e.message}. See console for stacktrace.")
+            throw InvalidCommandArgument("Error occurred while attempting to clone: '${e.message}'. See console for stacktrace.")
+        }
+        try {
+            plugin.gitRoot.renameTo(plugin.gitRootOld)
+            plugin.gitRootTmp.renameTo(plugin.gitRoot)
+            plugin.gitRootOld.deleteRecursively()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw InvalidCommandArgument("Something went wrong. Please see console.")
         }
     }
 
     @Subcommand("update")
     @Description("updates the repo")
+    @CommandPermission("docs.update")
     fun onUpdate(sender: CommandSender) {
-
+        val git: Git
+        try {
+            git = Git.open(plugin.gitRoot)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw InvalidCommandArgument("Failed to update: Error while loading repository. You may have to use /docs origin first. Error: '${e.message}'. See console for stacktrace.")
+        }
     }
 }
