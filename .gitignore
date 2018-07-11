@@ -3,6 +3,8 @@ https://www.gitignore.io/api/java,kotlin,gradle,eclipse,intellij
 
 ### Eclipse ###
 
+testServer/
+
 .metadata
 bin/
 tmp/

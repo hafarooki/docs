@@ -12,6 +12,8 @@ version '1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 
 bukkit {
+    version = "1.12.2"
+    
     meta {
         name = "Docs"
         description = "Plugin component of the Docs tool, a system for generating both web and ingame documentation from one source for Minecraft servers"
@@ -22,11 +24,6 @@ bukkit {
     run {
         core = "paper"
         eula = true
-        onlineMode = false
-        debug = true
-        encoding = "UTF-8"
-        javaArgs = "-Xmx1G"
-        bukkitArgs = ""
     }
 }
 
@@ -63,6 +60,7 @@ compileTestKotlin {
 
 shadowJar {
     relocate 'co.aikar.commands', 'com.miclesworkshop.docs.lib.acf'
+    archiveName = 'Docs.jar'
 }
 
 build.dependsOn shadowJar

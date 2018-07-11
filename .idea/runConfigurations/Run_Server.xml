@@ -1,9 +1,9 @@
 <component name='ProjectRunConfigurationManager'>
   <configuration default='false' name='Run Server' type='JarApplication' factoryName='JAR Application' singleton='true'>
-    <option name='JAR_PATH' value='C:\Users\Micle\IdeaProjects\Docs\build\server\1.12.2\core.jar' />
+    <option name='JAR_PATH' value='C:\Users\Micle\IdeaProjects\Docs\testServer\1.12.2\core.jar' />
     <option name='VM_PARAMETERS' value='-Dfile.encoding=UTF-8 -Xmx1G' />
     <option name='PROGRAM_PARAMETERS' value='' />
-    <option name='WORKING_DIRECTORY' value='C:\Users\Micle\IdeaProjects\Docs\build\server\1.12.2' />
+    <option name='WORKING_DIRECTORY' value='C:\Users\Micle\IdeaProjects\Docs\testServer\1.12.2' />
     <envs />
     <method>
       <option name='Gradle.BeforeRunTask' enabled='true' tasks='prepareServer' externalProjectPath='$PROJECT_DIR$' vmOptions='' scriptParameters='' />
