@@ -7,10 +7,10 @@ import co.aikar.commands.annotation.Default
 import co.aikar.commands.annotation.Subcommand
 import com.miclesworkshop.docs.DocsPlugin
 import com.miclesworkshop.docs.parseDoc
+import net.md_5.bungee.api.ChatColor.*
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
-import net.md_5.bungee.api.ChatColor.*
 import org.bukkit.command.CommandSender
 import java.io.File
 import kotlin.math.max
@@ -19,7 +19,7 @@ private fun CommandSender.listDocsInFolder(rootFolder: File, indents: Int, child
     // TODO: Replace this with an inventory menu
     val folder = if (childPath == "") rootFolder else File(rootFolder, childPath)
     assert(folder.exists() && folder.isDirectory)
-    val indent = String(CharArray(indents)).replace("\u0000", "  ")
+    val indent = String(CharArray(indents)).replace("\u0000", "    ")
     sendMessage("$indent$GOLD${folder.name}:")
     val folders = mutableListOf<String>()
     val files = mutableListOf<String>()
